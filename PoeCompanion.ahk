@@ -67,6 +67,7 @@ global Tick=250
 
 ;Coordinates
 global CellWith=53
+global CellWithQuad=53
 global InventoryX=1297
 global InventoryY=616
 global StashX=41
@@ -171,6 +172,7 @@ If FileExist("PoeCompanion.ini"){
 	IniRead, Tick, PoeCompanion.ini, General, Tick
 	
 	IniRead, CellWith, PoeCompanion.ini, Coordinates, CellWith
+	IniRead, CellWithQuad, PoeCompanion.ini, Coordinates, CellWithQuad
 	IniRead, InventoryX, PoeCompanion.ini, Coordinates, InventoryX
 	IniRead, InventoryY, PoeCompanion.ini, Coordinates, InventoryY
 	IniRead, StashX, PoeCompanion.ini, Coordinates, StashX
@@ -239,6 +241,7 @@ If FileExist("PoeCompanion.ini"){
 	IniWrite, %Tick%, PoeCompanion.ini, General, Tick
 	
 	IniWrite, %CellWith%, PoeCompanion.ini, Coordinates, CellWith
+	IniWrite, %CellWithQuad%, PoeCompanion.ini, Coordinates, CellWithQuad
 	IniWrite, %InventoryX%, PoeCompanion.ini, Coordinates, InventoryX
 	IniWrite, %InventoryY%, PoeCompanion.ini, Coordinates, InventoryY
 	IniWrite, %StashX%, PoeCompanion.ini, Coordinates, StashX
@@ -318,44 +321,44 @@ Gui, Show, x%GuiX% y%GuiY%
 ^WheelDown::AutoClicks() ; CTRL+WheelDown -> Spam CTRL+CLICK
 +WheelDown::AutoClicks() ; SHIFT+WheelDown -> Spam SHIFT+CLICK    
 ; -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-$!G::Send {Enter} /global 820 {Enter} ; ALT+G
-$!T::Send {Enter} /trade 820 {Enter} ; ALT+T
-$!H::Send {Enter} /hideout {Enter} ; ALT+H
-$!R::Send {Enter} /remaining {Enter} ; ALT+R
-$!B::Send {Enter} /abandon_daily {Enter} ; ALT+B
-$!L::Send {Enter} /itemlevel {Enter} ; ALT+L
-$!P::Send {Enter} /passives {Enter} ; ALT+P
-$!E::Send {Enter} /exit {Enter} ; ALT+E: Exit to char selection
-$!Y::Send ^{Enter}{Home}{Delete}/invite {Enter} ;ALT+Y: Invite the last char who whispered you to party
-$+Y::Send ^{Enter}{Home}{Delete}/tradewith {Enter} ; Invite the last char who whispered you to trade
-^!Y:: ; Link the current item to the last person that whispered you
-    Send ^{Enter}
-    Sleep 111
-    Send ^!{Click}{Space}
-Return
+;$!G::Send {Enter} /global 820 {Enter} ; ALT+G
+;$!T::Send {Enter} /trade 820 {Enter} ; ALT+T
+;$!H::Send {Enter} /hideout {Enter} ; ALT+H
+;$!R::Send {Enter} /remaining {Enter} ; ALT+R
+;$!B::Send {Enter} /abandon_daily {Enter} ; ALT+B
+;$!L::Send {Enter} /itemlevel {Enter} ; ALT+L
+;$!P::Send {Enter} /passives {Enter} ; ALT+P
+;$!E::Send {Enter} /exit {Enter} ; ALT+E: Exit to char selection
+;$!Y::Send ^{Enter}{Home}{Delete}/invite {Enter} ;ALT+Y: Invite the last char who whispered you to party
+;$+Y::Send ^{Enter}{Home}{Delete}/tradewith {Enter} ; Invite the last char who whispered you to trade
+;^!Y:: ; Link the current item to the last person that whispered you
+;    Send ^{Enter}
+;    Sleep 111
+;    Send ^!{Click}{Space}
+;Return
 ; -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 $!F1::ExitApp  ; Alt+F1: Exit the script
 $!Q::Logout() ; ALT+Q: Fast logout  
 $!O::CheckPos() ; ALT+O Get the cursor position. Use it to change the position setup for Identify, OpenPortal, SwitchGem etc
-$!S::POTSpam() ; Alt+S for 5 times will press 1,2,3,4,4 in fast seqvence 
+;$!S::POTSpam() ; Alt+S for 5 times will press 1,2,3,4,4 in fast seqvence
 ; -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; The following macros are NOT ALLOWED by GGG (EULA), as we send multiple server actions with one button pressed
 ; This can't be identified as we randomize all timmings, but dont use it if you want to stick with the EULA 
 ; -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 $!Space::OpenPortal() ; ALT+Space: Open a portal using a portal scroll from the top right inv slot; use CheckPos to change portal scroll position if needed
-$`::POT12345() ; `: Pressing ` once will press 1,2,3,4,5 in fast seqvence 
-$!I::Identify(InventoryX,InventoryY,InventoryRowsToMove,InventoryColumnsToMove) ; ALT+I: Id all the items from Inventory 
-$+I::Identify(StashX,StashY,12,12) ; SHIFT:I: Id all Items from the opened stash tab
+;$`::POT12345() ; `: Pressing ` once will press 1,2,3,4,5 in fast seqvence
+;$!I::Identify(InventoryX,InventoryY,InventoryRowsToMove,InventoryColumnsToMove,CellWith) ; ALT+I: Id all the items from Inventory
+;$+I::Identify(StashX,StashY,24,24,CellWithQuad) ; SHIFT:I: Id all Items from the opened stash tab
 $!C::CtrlClick(InventoryX,InventoryY,InventoryRowsToMove,InventoryColumnsToMove) ; ALT+C: CtrlClick full inventory excepting the last 2 columns
-$+C::CtrlClick(StashX,StashY,12,4) ; SHIFT+C: CtrlClick the opened stash tab to move 12 X 4 rows x columns to the Inventory
-$!X::CtrlClick(-1,-1,12,4) ; ALT+X: CtrClick the opened tab from the MousePointer (needs to be a top cell)
-$!Z::CtrlClickLoop(CtrlLoopCount) ; ALT + Z : 50 X CtrlClick at the current mouse location (ex: buys currency from vendors)
-$!F::ShiftClick(ShiftLoopCount) ; ShiftClick 50 times (Use it for Fusings/Jewler 6s/6l crafting) 
-$!M::SwitchGem() ;Alt+M to switch 2 gems (eg conc effect with area). Use CheckPos to change the positions in the function! 
+;$+C::CtrlClick(StashX,StashY,12,4) ; SHIFT+C: CtrlClick the opened stash tab to move 12 X 4 rows x columns to the Inventory
+;$!X::CtrlClick(-1,-1,12,4) ; ALT+X: CtrClick the opened tab from the MousePointer (needs to be a top cell)
+;$!Z::CtrlClickLoop(CtrlLoopCount) ; ALT + Z : 50 X CtrlClick at the current mouse location (ex: buys currency from vendors)
+;$!F::ShiftClick(ShiftLoopCount) ; ShiftClick 50 times (Use it for Fusings/Jewler 6s/6l crafting)
+;$!M::SwitchGem() ;Alt+M to switch 2 gems (eg conc effect with area). Use CheckPos to change the positions in the function!
 $!V::DivTrade() ;Alt+V trade all your divinations ; use CheckPos to change position if needed
-$!U::KeepKeyPressed()
-$!K::KeyOnTimmer()
-$!D::SwitchDebug()
+;$!U::KeepKeyPressed()
+;$!K::KeyOnTimmer()
+;$!D::SwitchDebug()
 
 SwitchDebug(){
 debug=!debug
@@ -371,7 +374,7 @@ $!F10::
     if (!TradeSpam) {
         SetTimer TTradeSpam, Off
     } else {
-        SetTimer TTradeSpam, %TradeDelay%		
+        SetTimer TTradeSpam, %TradeDelay%
     }
 return
 	
@@ -561,16 +564,15 @@ ShiftClick(iCount) {
 	BlockInput Off
 	return
 }
-Identify(iX,iY,iRow,IColumn) {
+Identify(iX,iY,iRow,IColumn,delta) {
 	BlockInput On
 	RandomSleep(113,138)
 	; iX, iY pos of top left inventory cell
-		
-	delta := 53
+
 	x := ix
 	y := iy
 		
-	MouseMove, 1820, 615 ; Get pos of the wisdom scrolls (default is the 11th from the first row on specified resolution) 
+	MouseMove, WisdomScrollX, WisdomScrollY ; Get pos of the wisdom scrolls (default is the 11th from the first row on specified resolution)
 	RandomSleep(56,68)
 	Click Right 
 	RandomSleep(56,68)
